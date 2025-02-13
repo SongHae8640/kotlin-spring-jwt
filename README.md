@@ -78,7 +78,7 @@
 - **Request Body**:
 ```json
 {
-  "username": "사용자아이디",
+  "id": "사용자아이디",
   "password": "비밀번호"
 }
 ```
@@ -115,8 +115,8 @@
 {
   "valid": true,
   "user": {
-    "id": 1,
-    "username": "사용자아이디"
+    "seq": 1,
+    "id": "사용자아이디"
   }
 }
 ```
