@@ -1,6 +1,7 @@
 package com.template.kotlinspringjwt.auth.controller
 
 import com.template.kotlinspringjwt.auth.controller.dto.LoginRequest
+import com.template.kotlinspringjwt.auth.controller.dto.LoginResponse
 import com.template.kotlinspringjwt.auth.service.AuthService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
@@ -17,8 +18,8 @@ class AuthController(
 ) {
     @PostMapping("/login")
     @Operation(summary = "로그인", description = "회원의 AccessToken, RefreshToken 발급")
-    fun login(@RequestBody @Validated request: LoginRequest) {
-        authService.login(request)
+    fun login(@RequestBody @Validated request: LoginRequest) : LoginResponse {
+        return authService.login(request)
     }
 
     @PostMapping("/logout")

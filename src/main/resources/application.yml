@@ -30,3 +30,9 @@ spring:
         format_sql: true
         show_sql: true
     open-in-view: false
+
+jwt:
+  secret: 353c0c68e964f9c1e1bd5dcc5df176050781247dcbdc51757740101e9a35c7da
+  ttl:
+    access: 3600 # 1 hour
+    refresh: 86400 # 1 day
