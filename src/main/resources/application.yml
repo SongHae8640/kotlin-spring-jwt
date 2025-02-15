@@ -45,7 +45,7 @@ logging:
 
 jwt:
   secret: 353c0c68e964f9c1e1bd5dcc5df176050781247dcbdc51757740101e9a35c7da
-  ttl:
-    access: 3600000 # 1 hour
-    refresh: 86400000 # 1 day
+  lifetime:
+    access: 1h
+    refresh: 1d
 
