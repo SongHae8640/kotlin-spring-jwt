@@ -19,10 +19,11 @@ class JwtProvider(
 ) {
     private val accessTokenLifetimeMillis = accessTokenLifetime.toMillis()
     private val refreshTokenLifetimeMillis = refreshTokenLifetime.toMillis()
+    private val key = Keys.hmacShaKeyFor(secretKey.toByteArray())
 
     fun createAccessToken(memberDetails: MemberDetails): String {
         return Jwts.builder()
-            .signWith(Keys.hmacShaKeyFor(secretKey.toByteArray()), SignatureAlgorithm.HS512)
+            .signWith(key, SignatureAlgorithm.HS512)
             .setIssuedAt(Date())
             .setSubject(memberDetails.username)
             .claim("seq", memberDetails.getSeq())
@@ -34,7 +35,7 @@ class JwtProvider(
 
     fun createRefreshToken(memberDetails: MemberDetails): String {
         return Jwts.builder()
-            .signWith(Keys.hmacShaKeyFor(secretKey.toByteArray()), SignatureAlgorithm.HS512)
+            .signWith(key, SignatureAlgorithm.HS512)
             .setIssuedAt(Date())
             .setSubject(memberDetails.username)
             .claim("version", memberDetails.getTokenVersion())
@@ -61,7 +62,7 @@ class JwtProvider(
 
     private fun getMemberDetails(token: String): MemberDetails {
         val claims = Jwts.parserBuilder()
-            .setSigningKey(Keys.hmacShaKeyFor(secretKey.toByteArray()))
+            .setSigningKey(key)
             .build()
             .parseClaimsJws(token)
             .body
