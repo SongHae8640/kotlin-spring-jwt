@@ -20,16 +20,32 @@ class AuthService(
         val authentication = authenticationManager.authenticate(
             UsernamePasswordAuthenticationToken(request.id, request.password)
         )
-        return LoginResponse(
-            accessToken = jwtProvider.createAccessToken(authentication.principal as MemberDetails),
-            refreshToken = jwtProvider.createRefreshToken(authentication.principal as MemberDetails)
-        )
+        return createLoginResponse(authentication.principal as MemberDetails)
     }
+
+    private fun createLoginResponse(memberDetails: MemberDetails) =
+        LoginResponse(
+            accessToken = jwtProvider.createAccessToken(memberDetails),
+            refreshToken = jwtProvider.createRefreshToken(memberDetails)
+        )
 
     @Transactional
     fun logout(memberDetails: MemberDetails) {
         memberRepository.findByLoginId(memberDetails.username)
             .orElseThrow { throw IllegalArgumentException("해당하는 사용자를 찾을 수 없습니다.") }
             .updateTokenVersion(memberDetails.getTokenVersion())
+    }
+
+    @Transactional
+    fun refresh(memberDetails: MemberDetails, refreshToken: String): LoginResponse {
+        if (!jwtProvider.validateToken(refreshToken)) {
+            throw IllegalArgumentException("RefreshToken이 유효하지 않습니다.")
+        }
+
+        val member = memberRepository.findByLoginId(memberDetails.username)
+            .orElseThrow { throw IllegalArgumentException("해당하는 사용자를 찾을 수 없습니다.") }
+        member.updateTokenVersion(memberDetails.getTokenVersion())
+
+        return createLoginResponse(MemberDetails(member))
     }
 }

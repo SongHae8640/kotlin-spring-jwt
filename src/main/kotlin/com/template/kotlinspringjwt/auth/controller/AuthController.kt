@@ -39,7 +39,8 @@ class AuthController(
 
     @PostMapping("/refresh")
     @Operation(summary = "토큰 재발급", description = "RefreshToken을 이용한 AccessToken 재발급")
-    fun refresh() {
-        // TODO : 토큰 재발급 로직
+    fun refresh(@AuthenticationPrincipal memberDetails: MemberDetails,
+                @RequestHeader("Refresh-Token") refreshToken: String) : LoginResponse {
+        return authService.refresh(memberDetails, refreshToken)
     }
 }
