@@ -28,7 +28,10 @@ class Member (
     fun getName(): String = name
     fun getTokenVersion(): Long = tokenVersion
 
-    fun updateTokenVersion(){
-        tokenVersion++
+    fun updateTokenVersion(tokenVersion: Long) {
+        if (this.tokenVersion != tokenVersion) {
+            throw IllegalArgumentException("토큰 버전이 일치하지 않습니다.")
+        }
+        this.tokenVersion++
     }
 }

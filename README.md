@@ -95,12 +95,7 @@
 - **Method**: `POST`
 - **Headers**:
     - `Authorization: Bearer <accessToken>`
-- **Response**:
-```json
-{
-  "message": "로그아웃 성공"
-}
-```
+- **Response**: `HTTP Status 200`
 
 #### 동작 설명
 - 로그아웃 요청 시, 해당 사용자의 JWT 버전이 업데이트되어 기존 토큰은 더 이상 유효하지 않습니다.

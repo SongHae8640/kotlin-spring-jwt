@@ -27,8 +27,8 @@ class AuthController(
 
     @PostMapping("/logout")
     @Operation(summary = "로그아웃", description = "회원의 JWT 무효화")
-    fun logout() {
-        // TODO : 로그아웃 로직
+    fun logout(@AuthenticationPrincipal memberDetails: MemberDetails) {
+        authService.logout(memberDetails)
     }
 
     @GetMapping("/validate")

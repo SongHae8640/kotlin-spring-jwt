@@ -21,11 +21,11 @@ data class MemberDetails(
         name = member.getName()
     )
 
-    constructor(seq: Long, loginId: String, name: String) : this(
+    constructor(seq: Long, loginId: String, tokenVersion: Long, name: String) : this(
         seq = seq,
         loginId = loginId,
         password = "",
-        tokenVersion = 0,
+        tokenVersion = tokenVersion,
         name = name
     )
 

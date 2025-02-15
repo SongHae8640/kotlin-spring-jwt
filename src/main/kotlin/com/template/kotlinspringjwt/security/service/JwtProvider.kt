@@ -28,6 +28,7 @@ class JwtProvider(
             .setSubject(memberDetails.username)
             .claim("seq", memberDetails.getSeq())
             .claim("name", memberDetails.getName())
+            .claim("version", memberDetails.getTokenVersion())
             .setExpiration(Date(Date().time + accessTokenLifetimeMillis))
             .compact()
 
@@ -70,6 +71,7 @@ class JwtProvider(
         return MemberDetails(
             seq = (claims["seq"] as Int).toLong(),
             loginId = claims.subject,
+            tokenVersion = (claims["version"] as Int).toLong(),
             name = claims["name"] as String
         )
     }
