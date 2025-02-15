@@ -8,19 +8,25 @@ import jakarta.persistence.*
 class Member (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val seq: Long? = null,
+    private val seq: Long? = null,
 
     @Column(nullable = false, unique = true, length = 50)
-    val loginId: String,
+    private val loginId: String,
 
     @Column(nullable = false, length = 100)
-    val password: String,
+    private val password: String,
 
     @Column(nullable = false, length = 50)
-    val name: String,
+    private val name: String,
 
     @Column(nullable = false, length = 50)
-    var tokenVersion: Long
+    private var tokenVersion: Long
 ){
     constructor() : this(null, "","","", 1)
+
+    fun getSeq(): Long? = seq
+    fun getLoginId(): String = loginId
+    fun getPassword(): String = password
+    fun getName(): String = name
+    fun getTokenVersion(): Long = tokenVersion
 }
