@@ -4,5 +4,6 @@ create table tb_member (
     login_id varchar(50) not null unique,
     password varchar(100) not null,
     name varchar(50) not null,
+    token_version bigint not null default 1,
     primary key (seq)
 );

@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails
 data class MemberDetails(private val member: Member) : UserDetails {
     fun getSeq(): Long = member.seq!!
     fun getName(): String = member.name
+    fun getTokenVersion(): Long = member.tokenVersion
     override fun getAuthorities(): Collection<GrantedAuthority> =
         listOf(SimpleGrantedAuthority("ROLE_USER"))
     override fun getPassword(): String = member.password

@@ -31,6 +31,7 @@ class JwtTokenProvider(
             .signWith(Keys.hmacShaKeyFor(secretKey.toByteArray()), SignatureAlgorithm.HS512)
             .setIssuedAt(Date())
             .setSubject(memberDetails.username)
+            .claim("version", memberDetails.getTokenVersion())
             .setExpiration(Date(System.currentTimeMillis() + refreshTokenTtl))
             .compact()
     }

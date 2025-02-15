@@ -14,7 +14,7 @@ class JwtTokenProviderTest{
     @Test
     fun createAccessTokenTest(){
         // Given
-        val member = Member(1, "string", "test", "조조")
+        val member = Member(1, "string", "test", "조조",1)
         val memberDetails = MemberDetails(member)
 
         // When
@@ -28,7 +28,7 @@ class JwtTokenProviderTest{
     @Test
     fun createRefreshTokenTest(){
         // Given
-        val member = Member(1, "string", "test", "조조")
+        val member = Member(1, "string", "test", "조조", 1)
         val memberDetails = MemberDetails(member)
 
         // When

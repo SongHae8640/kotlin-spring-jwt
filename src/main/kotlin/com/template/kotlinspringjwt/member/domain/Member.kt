@@ -17,7 +17,10 @@ class Member (
     val password: String,
 
     @Column(nullable = false, length = 50)
-    val name: String
+    val name: String,
+
+    @Column(nullable = false, length = 50)
+    var tokenVersion: Long
 ){
-    constructor() : this(null, "","","")
+    constructor() : this(null, "","","", 1)
 }
