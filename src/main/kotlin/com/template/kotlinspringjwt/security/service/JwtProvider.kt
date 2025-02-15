@@ -10,9 +10,8 @@ import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Component
 import java.util.*
 
-//TODO : 이름 변경. JwtTokenProvider -> JwtProvider, ttl -> milliseconds
 @Component
-class JwtTokenProvider(
+class JwtProvider(
     @Value("\${jwt.secret}") private val secretKey: String,
     @Value("\${jwt.ttl.access}") private val accessTokenTtl: Long,
     @Value("\${jwt.ttl.refresh}") private val refreshTokenTtl: Long

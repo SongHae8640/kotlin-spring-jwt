@@ -8,9 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-class JwtTokenProviderTest{
+class JwtProviderTest{
     @Autowired
-    lateinit var jwtTokenProvider: JwtTokenProvider
+    lateinit var jwtProvider: JwtProvider
     @Test
     fun createAccessTokenTest(){
         // Given
@@ -18,7 +18,7 @@ class JwtTokenProviderTest{
         val memberDetails = MemberDetails(member)
 
         // When
-        val token = jwtTokenProvider.createAccessToken(memberDetails)
+        val token = jwtProvider.createAccessToken(memberDetails)
 
         // Then
         assertNotNull(token)
@@ -32,7 +32,7 @@ class JwtTokenProviderTest{
         val memberDetails = MemberDetails(member)
 
         // When
-        val token = jwtTokenProvider.createRefreshToken(memberDetails)
+        val token = jwtProvider.createRefreshToken(memberDetails)
 
         // Then
         assertNotNull(token)

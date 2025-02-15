@@ -1,6 +1,6 @@
 package com.template.kotlinspringjwt.security.filter
 
-import com.template.kotlinspringjwt.security.service.JwtTokenProvider
+import com.template.kotlinspringjwt.security.service.JwtProvider
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -9,7 +9,7 @@ import org.springframework.util.StringUtils
 import org.springframework.web.filter.OncePerRequestFilter
 
 class JwtAuthenticationFilter(
-    private val jwtTokenProvider: JwtTokenProvider
+    private val jwtProvider: JwtProvider
 ) : OncePerRequestFilter(
 ) {
     override fun doFilterInternal(
@@ -19,8 +19,8 @@ class JwtAuthenticationFilter(
     ) {
         val token = resolveToken(request)
         // TODO : validateToken 는 빼고 getAuthentication 에서 토큰에 대한 검증을 하도록 수정
-        if (token != null && jwtTokenProvider.validateToken(token)) {
-            val authentication = jwtTokenProvider.getAuthentication(token)
+        if (token != null && jwtProvider.validateToken(token)) {
+            val authentication = jwtProvider.getAuthentication(token)
             SecurityContextHolder.getContext().authentication = authentication
         }
         filterChain.doFilter(request, response)
