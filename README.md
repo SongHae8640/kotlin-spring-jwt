@@ -113,11 +113,9 @@
 - **Response**:
 ```json
 {
-  "valid": true,
-  "user": {
-    "seq": 1,
-    "id": "사용자아이디"
-  }
+  "seq": 1,
+  "id": "사용자아이디",
+  "name": "사용자이름"
 }
 ```
 
@@ -128,7 +126,8 @@
 - **URL**: `/api/auth/refresh`
 - **Method**: `POST`
 - **Headers**:
-    - `Authorization: Bearer <refreshToken>`
+    - `Authorization: Bearer <accessToken>`
+    - `Refresh-Token: Bearer <refreshToken>`
 - **Response**:
 ```json
 {

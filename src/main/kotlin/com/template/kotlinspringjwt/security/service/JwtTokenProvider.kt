@@ -5,9 +5,12 @@ import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import io.jsonwebtoken.security.Keys
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Component
 import java.util.*
 
+//TODO : 이름 변경. JwtTokenProvider -> JwtProvider, ttl -> milliseconds
 @Component
 class JwtTokenProvider(
     @Value("\${jwt.secret}") private val secretKey: String,
@@ -21,7 +24,7 @@ class JwtTokenProvider(
             .setSubject(memberDetails.username)
             .claim("seq", memberDetails.getSeq())
             .claim("name", memberDetails.getName())
-            .setExpiration(Date(System.currentTimeMillis() + accessTokenTtl))
+            .setExpiration(Date(Date().time + accessTokenTtl))
             .compact()
 
     }
@@ -32,7 +35,38 @@ class JwtTokenProvider(
             .setIssuedAt(Date())
             .setSubject(memberDetails.username)
             .claim("version", memberDetails.getTokenVersion())
-            .setExpiration(Date(System.currentTimeMillis() + refreshTokenTtl))
+            .setExpiration(Date(Date().time + refreshTokenTtl))
             .compact()
+    }
+
+    fun validateToken(token: String): Boolean {
+        return try {
+            Jwts.parserBuilder()
+                .setSigningKey(Keys.hmacShaKeyFor(secretKey.toByteArray()))
+                .build()
+                .parseClaimsJws(token)
+            true
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    fun getAuthentication(token: String): Authentication {
+        val memberDetails = getMemberDetails(token)
+        return UsernamePasswordAuthenticationToken(memberDetails, "", memberDetails.authorities)
+    }
+
+    private fun getMemberDetails(token: String): MemberDetails {
+        val claims = Jwts.parserBuilder()
+            .setSigningKey(Keys.hmacShaKeyFor(secretKey.toByteArray()))
+            .build()
+            .parseClaimsJws(token)
+            .body
+
+        return MemberDetails(
+            seq = (claims["seq"] as Int).toLong(),
+            loginId = claims.subject,
+            name = claims["name"] as String
+        )
     }
 }

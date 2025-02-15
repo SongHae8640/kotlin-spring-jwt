@@ -1,5 +1,7 @@
 package com.template.kotlinspringjwt.config
 
+import com.template.kotlinspringjwt.security.filter.JwtAuthenticationFilter
+import com.template.kotlinspringjwt.security.service.JwtTokenProvider
 import com.template.kotlinspringjwt.security.service.MemberDetailsService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -11,10 +13,12 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 
 @Configuration
 class SecurityConfig(
-    private val memberDetailsService: MemberDetailsService
+    private val memberDetailsService: MemberDetailsService,
+    private val jwtTokenProvider: JwtTokenProvider
 ) {
     @Bean
     fun securityFilterChain(http: HttpSecurity) : SecurityFilterChain {
@@ -23,6 +27,7 @@ class SecurityConfig(
             .csrf{ it.disable() }
             .formLogin{ it.disable() }
             .httpBasic{ it.disable() }
+            .addFilterBefore(JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter::class.java)
             .build()
     }
 

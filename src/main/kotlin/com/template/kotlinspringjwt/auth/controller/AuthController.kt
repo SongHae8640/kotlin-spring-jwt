@@ -2,10 +2,13 @@ package com.template.kotlinspringjwt.auth.controller
 
 import com.template.kotlinspringjwt.auth.controller.dto.LoginRequest
 import com.template.kotlinspringjwt.auth.controller.dto.LoginResponse
+import com.template.kotlinspringjwt.auth.controller.dto.ValidateResponse
 import com.template.kotlinspringjwt.auth.service.AuthService
+import com.template.kotlinspringjwt.security.domain.MemberDetails
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import lombok.RequiredArgsConstructor
+import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 
@@ -30,8 +33,8 @@ class AuthController(
 
     @GetMapping("/validate")
     @Operation(summary = "토큰 검증", description = "토큰의 유효성 검증")
-    fun validate() {
-        // TODO : 토큰 검증 로직
+    fun validate(@AuthenticationPrincipal memberDetails: MemberDetails) : ValidateResponse {
+        return ValidateResponse(memberDetails)
     }
 
     @PostMapping("/refresh")
